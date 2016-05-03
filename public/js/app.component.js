@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/http'], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/http'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -33,9 +33,9 @@ System.register(['angular2/core', 'angular2/http'], function(exports_1, context_
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: 'my-app',
-                        templateUrl: '../html/app.html',
                         styleUrls: ['../css/app.css'],
-                        providers: http_1.HTTP_PROVIDERS
+                        providers: http_1.HTTP_PROVIDERS,
+                        template: "\n\t\t<h1>Hello Alice</h1>\n\t\t<p>Server Data: {{ serverData }}</p>\n\t"
                     }), 
                     __metadata('design:paramtypes', [http_1.Http])
                 ], AppComponent);

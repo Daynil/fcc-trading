@@ -1,11 +1,14 @@
-import {Component} from 'angular2/core';
-import {Http, HTTP_PROVIDERS} from 'angular2/http';
+import {Component} from '@angular/core';
+import {Http, HTTP_PROVIDERS} from '@angular/http';
 
 @Component({
 	selector: 'my-app',
-	templateUrl: '../html/app.html',
 	styleUrls: ['../css/app.css'],
-	providers: HTTP_PROVIDERS
+	providers: HTTP_PROVIDERS,
+	template: `
+		<h1>Hello Alice</h1>
+		<p>Server Data: {{ serverData }}</p>
+	`
 })
 export class AppComponent {
 	serverData: string;

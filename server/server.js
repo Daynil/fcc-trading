@@ -8,8 +8,7 @@ const morgan = require('morgan');
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 
-let pathname = path.join(__dirname, "../public");
-app.use( express.static(pathname) );
+app.use( express.static( path.join(__dirname, "../public") ));
 
 app.use('/scripts', express.static( path.join(__dirname, '../node_modules') ));
 app.use('/js', express.static( path.join(__dirname, '../public/js') ));

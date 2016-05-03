@@ -1,5 +1,5 @@
 {
-  "name": "angular2-fullstack",
+  "name": "fullstack-angular2express",
   "version": "1.0.0",
   "scripts": {
     "start": "gulp serve",
@@ -10,10 +10,20 @@
   },
   "license": "ISC",
   "dependencies": {
-    "angular2": "2.0.0-beta.17",
+    "@angular/common":  "2.0.0-rc.0",
+    "@angular/compiler":  "2.0.0-rc.0",
+    "@angular/core":  "2.0.0-rc.0",
+    "@angular/http":  "2.0.0-rc.0",
+    "@angular/platform-browser":  "2.0.0-rc.0",
+    "@angular/platform-browser-dynamic":  "2.0.0-rc.0",
+    "@angular/router-deprecated":  "2.0.0-rc.0",
+    "@angular/upgrade":  "2.0.0-rc.0",
+    "angular2-in-memory-web-api": "0.0.5",
+
     "body-parser": "^1.15.0",
     "es6-shim": "^0.35.0",
     "express": "^4.13.4",
+    "lodash": "^4.11.2",
     "mongoose": "^4.4.14",
     "morgan": "^1.7.0",
     "reflect-metadata": "0.1.2",
@@ -24,6 +34,7 @@
   "devDependencies": {
     "concurrently": "^2.0.0",
     "gulp": "^3.9.1",
+    "gulp-nodemon": "^2.0.6",
     "gulp-sass": "^2.3.1",
     "gulp-sourcemaps": "^2.0.0-alpha",
     "gulp-typescript": "^2.13.0",
