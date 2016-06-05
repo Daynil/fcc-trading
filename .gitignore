@@ -10,3 +10,7 @@ typings
 
 # Don't add .env
 .env
+
+# Don't add compiled files
+public/css
+public/js
