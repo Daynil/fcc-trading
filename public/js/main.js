@@ -1,4 +1,3 @@
-/// <reference path="../../node_modules/angular2-in-memory-web-api/typings/browser.d.ts" />
 System.register(['@angular/platform-browser-dynamic', './app.component'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
@@ -12,6 +11,7 @@ System.register(['@angular/platform-browser-dynamic', './app.component'], functi
                 app_component_1 = app_component_1_1;
             }],
         execute: function() {
+            //enableProdMode();
             platform_browser_dynamic_1.bootstrap(app_component_1.AppComponent);
         }
     }

@@ -19,5 +19,5 @@ export class AppComponent {
 				this.serverData = res._body;
 			});
 	}
-	
+
 }

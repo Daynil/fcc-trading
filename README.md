@@ -1,5 +1,5 @@
 Universal javascript application skeleton. Front end is Typescript and SCSS,
-back end is untransformed ES6. 
+back end is untransformed ES6. Typings installed for front and back end libraries.
 
 # Development Stack:
 
@@ -19,6 +19,7 @@ back end is untransformed ES6.
 
 ```
 $ npm install
+$ typings install
 $ npm start
 ```
 

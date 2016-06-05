@@ -35,7 +35,7 @@ gulp.task('compile-scss', function() {
 gulp.task('compile-ts', function() {
 	var sourceTsFiles = [
 		'./src/ts/*.ts',			// Path to typscript files
-		  // Reference to typings so tsc knows where it is
+		'./typings/index.d.ts' 		// Reference to typings so tsc knows where it is
 	];
 	
 	var tsResult = gulp

@@ -6,3 +6,4 @@ typings
 
 # Don't add IDE stuff
 .idea
+.vscode
