@@ -1,4 +1,4 @@
-Universal javascript application skeleton. Front end is Typescript and SCSS,
+Full stack javascript application skeleton. Front end is Typescript and SCSS,
 back end is untransformed ES6. Typings installed for front and back end libraries.
 
 # Development Stack:

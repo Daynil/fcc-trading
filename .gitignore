@@ -7,3 +7,6 @@ typings
 # Don't add IDE stuff
 .idea
 .vscode
+
+# Don't add .env
+.env
