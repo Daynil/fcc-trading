@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "gulp serve",
+    "postinstall": "gulp build-production",
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "typings": "typings"
@@ -20,8 +21,12 @@
     "angular2-in-memory-web-api": "0.0.5",
     "body-parser": "^1.15.0",
     "compression": "^1.6.2",
+    "concurrently": "^2.1.0",
     "es6-shim": "^0.35.0",
     "express": "^4.13.4",
+    "gulp": "^3.9.1",
+    "gulp-sass": "^2.3.1",
+    "gulp-typescript": "^2.13.6",
     "lodash": "^4.11.2",
     "mongoose": "^4.4.14",
     "morgan": "^1.7.0",
@@ -31,13 +36,9 @@
     "zone.js": "0.6.12"
   },
   "devDependencies": {
-    "concurrently": "^2.0.0",
     "dotenv": "^2.0.0",
-    "gulp": "^3.9.1",
     "gulp-nodemon": "^2.0.6",
-    "gulp-sass": "^2.3.1",
     "gulp-sourcemaps": "^2.0.0-alpha",
-    "gulp-typescript": "^2.13.0",
     "typescript": "^1.8.10"
   }
 }
