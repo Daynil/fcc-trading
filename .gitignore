@@ -12,5 +12,4 @@ typings
 .env
 
 # Don't add compiled files
-public/css
-public/js
+dist

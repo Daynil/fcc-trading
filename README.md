@@ -18,8 +18,8 @@ back end is untransformed ES6. Typings installed for front and back end librarie
 # Usage:
 
 ```
-$ npm install
 $ typings install
+$ npm install
 $ npm start
 ```
 
