@@ -3,5 +3,8 @@ import { enableProdMode } from "@angular/core";
 
 import { AppComponent } from './app/app.component';
 
-//enableProdMode();
-bootstrap(AppComponent);
+// enableProdMode();
+
+bootstrap(AppComponent)
+  .then(success => console.log(`Bootstrap success`))
+  .catch(error => console.log(error));
