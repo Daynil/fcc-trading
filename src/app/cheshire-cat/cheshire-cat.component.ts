@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-	selector: 'cheshire-cat',
-	templateUrl: 'app/cheshire-cat/cheshire-cat.component.html',
-	styleUrls: ['app/cheshire-cat/cheshire-cat.component.css']
+  moduleId: module.id,
+  selector: 'cheshire-cat',
+  templateUrl: 'cheshire-cat.component.html',
+  styleUrls: ['cheshire-cat.component.css']
 })
 export class CheshireCatComponent implements OnInit {
-	cheshireAscii = `
+  cheshireAscii = `
            .'/   /'.					
          .'.-.'-'.-.'.					
     ..._:   .-. .-.   :_...				
@@ -19,10 +20,10 @@ export class CheshireCatComponent implements OnInit {
     '.   '-:_| | |_:-'   .'				
       '-._   ''''    _.-'				
           ''-------''					
-	`;
+  `;
 
-	constructor() { }
+  constructor() { }
 
-	ngOnInit() { }
+  ngOnInit() { }
 
 }
