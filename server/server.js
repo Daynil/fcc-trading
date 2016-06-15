@@ -5,8 +5,11 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const compress = require('compression');
-require('dotenv').load();
 
+// Load local environment variables in development
+if (process.env.NODE_ENV !== 'production') {
+	require('dotenv').load();
+}
 let production = process.env.NODE_ENV === 'production';
 
 /** True = get response details on served node modules **/
