@@ -9,7 +9,7 @@ let nodemon = require('gulp-nodemon');
 
 /** Development Builds **/
 
-gulp.task('serve', ['compile-ts', 'compile-scss', 'copy-htmljs'], () => {
+gulp.task('serve', ['compile-ts', 'compile-scss', 'copy-untransformed'], () => {
   nodemon({script: './server/server.js'});
   
   gulp.watch(
@@ -19,7 +19,7 @@ gulp.task('serve', ['compile-ts', 'compile-scss', 'copy-htmljs'], () => {
          './src/**/*.js' ], ['src-watch']);
 });
 
-gulp.task('src-watch', ['compile-ts', 'compile-scss', 'copy-htmljs']);
+gulp.task('src-watch', ['compile-ts', 'compile-scss', 'copy-untransformed']);
 
 gulp.task('compile-scss', function() {
   var sourceScssFiles = [
@@ -57,10 +57,11 @@ gulp.task('compile-ts', function() {
 });
 
 /** Copy untransformed files to destination folder */
-gulp.task('copy-htmljs', function() {
+gulp.task('copy-untransformed', function() {
   var sourceFiles = [
     './src/**/*.html',
-    './src/**/*.js'
+    './src/**/*.js',
+    './src/**/*.css'
   ];
 
   var stream = gulp
@@ -72,7 +73,7 @@ gulp.task('copy-htmljs', function() {
 
 /** Production Builds **/
 
-gulp.task('build-production', ['compile-ts-prod', 'compile-scss-prod', 'copy-htmljs']);
+gulp.task('build-production', ['compile-ts-prod', 'compile-scss-prod', 'copy-untransformed']);
 
 gulp.task('compile-scss-prod', function() {
   var sourceScssFiles = [
@@ -91,8 +92,8 @@ gulp.task('compile-scss-prod', function() {
 
 gulp.task('compile-ts-prod', function() {
   var sourceTsFiles = [
-    './src/**/*.ts',			 // Path to typscript files
-    './typings/index.d.ts'		 // Reference to typings so tsc knows where it is
+    './src/**/*.ts',			      // Path to typscript files
+    './typings/index.d.ts'	  	// Reference to typings so tsc knows where it is
   ];
   
   var tsResult = gulp
