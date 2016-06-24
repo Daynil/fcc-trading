@@ -1,3 +1,9 @@
-<h1>Hello Alice</h1>
-<cheshire-cat></cheshire-cat>
-<p>Server Data: {{ serverData }}</p>
+<div id="menu">
+  <div id="logo" class="menu-item"><i class="fa fa-book" aria-hidden="true"></i>Book Trading</div>
+  <a [routerLink]="['/']"><div class="menu-item">All Books</div></a>
+  <div class="menu-item">My Books</div>
+  <a [routerLink]="['/log-in']"><div class="menu-item">Log In</div></a>
+  <div class="menu-item">Sign Up</div>
+  <div class="menu-item">Log Out</div>
+</div>
+<router-outlet></router-outlet>
