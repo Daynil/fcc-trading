@@ -3,12 +3,12 @@ import { ROUTER_DIRECTIVES } from '@angular/router';
 
 @Component({
   moduleId: module.id,
-  selector: 'log-in',
-  templateUrl: 'log-in.component.html',
-  styleUrls: ['log-in.component.css'],
+  selector: 'sign-up',
+  templateUrl: 'sign-up.component.html',
+  styleUrls: ['sign-up.component.css'],
   directives: [ROUTER_DIRECTIVES]
 })
-export class LogInComponent implements OnInit {
+export class SignUpComponent implements OnInit {
   constructor() { }
 
   ngOnInit() { }

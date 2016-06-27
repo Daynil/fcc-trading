@@ -1,3 +1,11 @@
-<div>
-  <h1>Log In Be here!</h1>
+<div id="login">
+  <h2>Log in</h2>
+  <div>Email</div>
+  <input type="text" #email id="email">
+  <div>Password</div>
+  <input type="text" #password id="password">
+  <div id="button-area">
+    <div class="button">Login</div>
+    <div>Don't' have an account? <a [routerLink]="['/sign-up']">Sign up</a></div>
+  </div>
 </div>

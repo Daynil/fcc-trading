@@ -12,6 +12,15 @@ if (process.env.NODE_ENV !== 'production') {
 }
 let production = process.env.NODE_ENV === 'production';
 
+// Login
+const session = require('express-session');
+const passport = require('passport');
+require('./passport')(passport);
+
+// Database
+const mongoose = require('mongoose');
+mongoose.connect(process.env.MONGO_URI);
+
 /** True = get response details on served node modules **/
 let verboseLogging = false;
 
@@ -34,8 +43,37 @@ app.use( express.static( path.join(__dirname, '../dist') ));
 app.use('/scripts', express.static( path.join(__dirname, '../node_modules') ));
 app.use('/app', express.static( path.join(__dirname, '../dist/app') ));
 
-app.get('/test', (req, res) => {
-  res.status(200).end('Data received from server!');
+app.use(session({
+	secret: 'secretRandSessionPass',
+	resave: false,
+	saveUninitialized: true
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.post('/sign-up', passport.authenticate('local-signup', {
+  successRedirect: '',
+  failureRedirect: '/signup'
+}));
+
+app.post('/log-in', passport.authenticate('local-login', {
+  successRedirect: '',
+  failureRedirect: '/login'
+}));
+
+app.get('/auth/checkCreds', (req, res) => {
+	if (req.isAuthenticated()) {
+		let userInfo = {
+			username: req.user.username
+		}
+		res.send({loggedIn: true, user: userInfo});
+	} else res.send({loggedIn: false, user: null});
+});
+
+app.get('/auth/logout', (req, res) => {
+	req.logout();
+	res.end();
 });
 
 /** Pass all non-api routes to front-end router for handling **/ 
