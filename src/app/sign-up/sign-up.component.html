@@ -1,13 +1,11 @@
 <div id="signup">
-  <h2>Create a new account</h2>
-  <form action="/" method="post">
-    <div>Username</div>
-    <input type="text" #username id="username" name="username">
-    <div>Password</div>
-    <input type="password" #password id="password" name="password">
-    <div id="button-area">
-      <input type="submit" class="button" value="Signup">
-      <div>Already have an account? <a [routerLink]="['/log-in']">Log In</a></div>
-    </div>
-  </form>
+  <h2>Create a new account {{test}}</h2>
+  <div>Username</div>
+  <input type="text" #username id="username">
+  <div>Password</div>
+  <input type="password" #password id="password">
+  <div id="button-area">
+    <div class="button" (click)="signup(username, password)">Signup</div>
+    <div>Already have an account? <a [routerLink]="['/log-in']">Log In</a></div>
+  </div>
 </div>

@@ -18,19 +18,16 @@ module.exports = passport => {
     (username, password, done) => {
       User.findOne({ 'username': username }, (err, user) => {
         if (err) {
-          console.log('signup error: ', err);
           return done(err);
         }
 
         if (user) {
-          console.log('Username taken');
-          return done(null, false);
+          return done(null, false, {message: 'Username taken'});
         }
         else {
-          let newUser = new User({
-            username: username,
-            password: newUser.generateHash(password)
-          });
+          let newUser = new User();
+          newUser.username = username;
+          newUser.password = newUser.generateHash(password);
           newUser.save( err => {
             if (err) {
               console.log('new user save error', err);
@@ -47,9 +44,9 @@ module.exports = passport => {
     (username, password, done) => {
       User.findOne({ 'username': username }, (err, user) => {
         if (err) return done(err);
-        if (!user) return done(null, false);
+        if (!user) return done(null, false, {message: 'Username not found'});
 
-        if (!user.validatePassword(password)) return done(null, false);
+        if (!user.validatePassword(password, user.password)) return done(null, false, {message: 'Incorrect password'});
         return done(null, user);
       });
     }));

@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Injectable, EventEmitter } from '@angular/core';
+import { Headers, Http, RequestOptions, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import "rxjs/add/operator/toPromise";
 
@@ -9,12 +9,45 @@ import { handleError, parseJson } from './http-helpers';
 @Injectable()
 export class AuthService {
 
-  creds: Credentials = null;
+  creds: Credentials = {loggedIn: false, user: null};
+  logEvent = new EventEmitter<Credentials>();
 
   constructor(private http: Http) { }
 
-  handleAuthLogging(username, password) {
-    
+  handleAuthLogging(logType: string, username: string, password: string) {
+    let body = JSON.stringify({
+      username: username,
+      password: password
+    });
+		let headers = new Headers({ 'Content-Type': 'application/json' });
+		let options = new RequestOptions({ headers: headers });
+    return this.http
+              .post(`/auth/${logType}`, body, options)
+              .toPromise()
+              .then(parseJson)
+              .then(res => {
+                if (logType === 'login') {
+                  this.creds = {
+                    loggedIn: true,
+                    user: res.userFormatted
+                  };
+                  console.log('res user', res.user);
+                  this.logEvent.emit(this.creds);
+                }
+                return res;
+              })
+              .catch(handleError);
   }
 
+  logout() {
+    return this.http
+              .get('/auth/logout')
+              .toPromise()
+              .then(res => {
+                this.creds = {loggedIn: false, user: null};
+                this.logEvent.emit(this.creds);
+                return res;
+              })
+              .catch(handleError);
+  }
 }

@@ -1,9 +1,15 @@
 <div id="menu">
-  <div id="logo" class="menu-item"><i class="fa fa-book" aria-hidden="true"></i>Book Trading</div>
+  <div class="menu-item" id="logo">
+    <i class="fa fa-book" aria-hidden="true"></i>
+    <span *ngIf="!creds.loggedIn">Book Trading</span>
+    <span *ngIf="creds.loggedIn">
+      {{ creds.user.username }}<a [routerLink]="['/settings']"><i id="settings" class="fa fa-cog" aria-hidden="true"></i></a>
+    </span>
+  </div>
   <a [routerLink]="['/']"><div class="menu-item">All Books</div></a>
-  <div class="menu-item">My Books</div>
-  <a [routerLink]="['/log-in']"><div class="menu-item">Log In</div></a>
-  <a [routerLink]="['/sign-up']"><div class="menu-item">Sign Up</div></a>
-  <div class="menu-item">Log Out</div>
+  <a [routerLink]="['/my-books']"><div class="menu-item" *ngIf="creds.loggedIn">My Books</div></a>
+  <a [routerLink]="['/log-in']"><div class="menu-item" *ngIf="!creds.loggedIn">Log In</div></a>
+  <a [routerLink]="['/sign-up']"><div class="menu-item" *ngIf="!creds.loggedIn">Sign Up</div></a>
+  <div class="menu-item" *ngIf="creds.loggedIn" (click)="logout()">Log Out</div>
 </div>
 <router-outlet></router-outlet>

@@ -7,7 +7,17 @@ export function parseJson(res: Response) {
 }
 
 /** Log error any errors */
-export function handleError(error: any) {
-  let errorMsg = error.message || 'Server error';
-  console.log(errorMsg);
+export function handleError(error: Response) {
+  let errorBody = '';
+  try {
+    errorBody = error.json()
+  } catch (jsonParseError) {
+    errorBody = error.toString();
+  }
+  let errorParsed = {
+    status: error.status,
+    statusText: error.statusText,
+    errorBody
+  };
+  console.log(errorParsed);
 }

@@ -52,15 +52,32 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.post('/sign-up', passport.authenticate('local-signup', {
-  successRedirect: '',
-  failureRedirect: '/signup'
-}));
+app.post('/auth/signup', (req, res, next) => {
+	passport.authenticate('local-signup', (err, user, info) => {
+		if (err) return res.status(500).json({message: 'auth error', err: err});
+		if (!user) return res.status(400).json(info);
+		req.logIn(user, (err) => {
+			if (err) return res.status(500).json({message: 'signup error', err: err});
+			return res.status(200).json({message: 'signup success!', user: user.username});
+		});
+	})(req, res, next);
+});
 
-app.post('/log-in', passport.authenticate('local-login', {
-  successRedirect: '',
-  failureRedirect: '/login'
-}));
+app.post('/auth/login', (req, res, next) => {
+	passport.authenticate('local-login', (err, user, info) => {
+		if (err) return res.status(500).json({message: 'auth error', err: err});
+		if (!user) return res.status(400).json(info);
+		req.logIn(user, (err) => {
+			if (err) return res.status(500).json({message: 'signup error', err: err});
+			else {
+				let userFormatted = {
+					username: user.username
+				};
+				return res.status(200).json({message: 'login success!', userFormatted});
+			}
+		});
+	})(req, res, next);
+});
 
 app.get('/auth/checkCreds', (req, res) => {
 	if (req.isAuthenticated()) {
