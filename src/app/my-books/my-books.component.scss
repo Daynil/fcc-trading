@@ -1,0 +1,28 @@
+@import '../shared/common-styles';
+
+#my-books {
+  text-align: center;
+  font-family: 'Raleway';
+}
+
+#add {
+  display: inline-block;
+  text-align: left; 
+  input {
+    margin-right: 10px;
+  }
+}
+
+book-list {
+  width: 70%;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.book {
+  display: inline-block;
+  padding: 5px;
+}

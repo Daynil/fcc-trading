@@ -5,6 +5,14 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const compress = require('compression');
+const _ = require('lodash');
+const books = require('google-books-search');
+
+/** Format DB document before sending to client */
+function formatDBUser(dbUser) {
+	let userFormatted = _.omit(dbUser.toObject(), ['password', '_id', '__v']);
+	return userFormatted;
+}
 
 // Load local environment variables in development
 if (process.env.NODE_ENV !== 'production') {
@@ -54,10 +62,10 @@ app.use(passport.session());
 
 app.post('/auth/signup', (req, res, next) => {
 	passport.authenticate('local-signup', (err, user, info) => {
-		if (err) return res.status(500).json({message: 'auth error', err: err});
+		if (err) return res.status(500).json({message: 'auth error', stringyErr: err.toString(), fullErr: err});
 		if (!user) return res.status(400).json(info);
 		req.logIn(user, (err) => {
-			if (err) return res.status(500).json({message: 'signup error', err: err});
+			if (err) return res.status(500).json({message: 'signup error', stringyErr: err.toString(), fullErr: err});
 			return res.status(200).json({message: 'signup success!', user: user.username});
 		});
 	})(req, res, next);
@@ -65,14 +73,13 @@ app.post('/auth/signup', (req, res, next) => {
 
 app.post('/auth/login', (req, res, next) => {
 	passport.authenticate('local-login', (err, user, info) => {
-		if (err) return res.status(500).json({message: 'auth error', err: err});
+		if (err) return res.status(500).json({message: 'auth error', stringyErr: err.toString(), fullErr: err});
 		if (!user) return res.status(400).json(info);
 		req.logIn(user, (err) => {
-			if (err) return res.status(500).json({message: 'signup error', err: err});
+			console.log('err type', typeof err, 'err: ', err);
+			if (err) return res.status(500).json({message: 'login error', stringyErr: err.toString(), fullErr: err});
 			else {
-				let userFormatted = {
-					username: user.username
-				};
+				let userFormatted = formatDBUser(user);
 				return res.status(200).json({message: 'login success!', userFormatted});
 			}
 		});
@@ -81,16 +88,22 @@ app.post('/auth/login', (req, res, next) => {
 
 app.get('/auth/checkCreds', (req, res) => {
 	if (req.isAuthenticated()) {
-		let userInfo = {
-			username: req.user.username
-		}
-		res.send({loggedIn: true, user: userInfo});
+		let userFormatted = formatDBUser(req.user);
+		res.send({loggedIn: true, user: req.user});
 	} else res.send({loggedIn: false, user: null});
 });
 
 app.get('/auth/logout', (req, res) => {
 	req.logout();
 	res.end();
+});
+
+app.get('/api/getbook/:book', (req, res) => {
+	let searchopts = {limit: 1};
+	books.search(req.params.book, searchopts, (err, results) => {
+		if (err) return res.status(500).json({message: 'login error', stringyErr: err.toString(), fullErr: err});
+		else return res.status(200).send(results);
+	});
 });
 
 /** Pass all non-api routes to front-end router for handling **/ 

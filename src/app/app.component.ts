@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HTTP_PROVIDERS } from '@angular/http';
 import { ROUTER_DIRECTIVES } from '@angular/router';
 
 import { AuthService } from './shared/auth.service';
+import { BooksService } from './shared/books.service';
 import { Credentials, User } from './shared/user.model';
 
 @Component({
@@ -11,9 +12,9 @@ import { Credentials, User } from './shared/user.model';
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.css'],
   directives: [ROUTER_DIRECTIVES],
-  providers: [HTTP_PROVIDERS, AuthService]
+  providers: [HTTP_PROVIDERS, AuthService, BooksService]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   creds: Credentials = {loggedIn: false, user: null};
 
@@ -26,6 +27,13 @@ export class AppComponent {
       };
       console.log(this.creds);
     })
+  }
+
+  ngOnInit() {
+    this.authService.checkCreds()
+        .then(res => {
+          this.creds = res;
+        });
   }
 
   logout() {

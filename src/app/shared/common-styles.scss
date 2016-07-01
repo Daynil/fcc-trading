@@ -17,5 +17,11 @@ $divider: #B6B6B6;
     cursor: pointer;
     background-color: $primary;
     color: aliceblue;
-  } 
+  }
+}
+
+input {
+  border: 1px solid $text-dark;
+  outline: none;
+  padding: 10px;
 }

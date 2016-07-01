@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { BooksService } from '../shared/books.service';
+
 @Component({
   moduleId: module.id,
   selector: 'my-books',
@@ -8,8 +10,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MyBooksComponent implements OnInit {
 
-  constructor() { }
+  constructor(private booksService: BooksService) { }
 
   ngOnInit() { }
+
+  addBook(bookInput: HTMLInputElement) {
+    if (bookInput.value.length < 1) return;
+    this.booksService
+        .getBook(bookInput.value)
+        .then(res => {
+          console.log(res);
+          bookInput.value = '';
+        });
+  }
 
 }

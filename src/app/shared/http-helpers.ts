@@ -10,7 +10,7 @@ export function parseJson(res: Response) {
 export function handleError(error: Response) {
   let errorBody = '';
   try {
-    errorBody = error.json()
+    errorBody = error.json();
   } catch (jsonParseError) {
     errorBody = error.toString();
   }

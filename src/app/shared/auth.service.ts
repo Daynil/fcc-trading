@@ -14,6 +14,18 @@ export class AuthService {
 
   constructor(private http: Http) { }
 
+  checkCreds() {
+    return this.http
+                .get('/auth/checkCreds')
+                .toPromise()
+                .then(parseJson)
+                .then(res => {
+                  this.creds = res;
+                  return res;
+                })
+                .catch(handleError);
+  }
+
   handleAuthLogging(logType: string, username: string, password: string) {
     let body = JSON.stringify({
       username: username,
@@ -31,7 +43,6 @@ export class AuthService {
                     loggedIn: true,
                     user: res.userFormatted
                   };
-                  console.log('res user', res.user);
                   this.logEvent.emit(this.creds);
                 }
                 return res;

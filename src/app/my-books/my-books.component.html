@@ -1,3 +1,15 @@
-<div>
-  <h1>Just My Books Be Here!</h1>
+<div id="my-books">
+  <h2>My Books</h2>
+  <div id="add">
+    <h3>Add a book:</h3>
+    <input #bookinput 
+          type="text" placeholder="Find book..."
+          (keyup.enter)="addBook(bookinput)">
+    <div class="button" (click)="addBook(bookinput)">Add</div>
+  </div>
+  <div id="book-list">
+    <div *ngFor="let book of booksService.allBooks" class="book">
+      <a [href]="book.link"><img [src]="book.thumbnailUrl"></a>
+    </div>
+  </div>
 </div>
