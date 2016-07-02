@@ -9,9 +9,9 @@ const _ = require('lodash');
 const books = require('google-books-search');
 
 /** Format DB document before sending to client */
-function formatDBUser(dbUser) {
-	let userFormatted = _.omit(dbUser.toObject(), ['password', '_id', '__v']);
-	return userFormatted;
+function formatDBRes(dbDoc) {
+	let formattedDocObj = _.omit(dbDoc.toObject(), ['password', '_id', '__v']);
+	return formattedDocObj;
 }
 
 // Load local environment variables in development
@@ -27,6 +27,7 @@ require('./passport')(passport);
 
 // Database
 const mongoose = require('mongoose');
+const Book = require('./book');
 mongoose.connect(process.env.MONGO_URI);
 
 /** True = get response details on served node modules **/
@@ -76,10 +77,9 @@ app.post('/auth/login', (req, res, next) => {
 		if (err) return res.status(500).json({message: 'auth error', stringyErr: err.toString(), fullErr: err});
 		if (!user) return res.status(400).json(info);
 		req.logIn(user, (err) => {
-			console.log('err type', typeof err, 'err: ', err);
 			if (err) return res.status(500).json({message: 'login error', stringyErr: err.toString(), fullErr: err});
 			else {
-				let userFormatted = formatDBUser(user);
+				let userFormatted = formatDBRes(user);
 				return res.status(200).json({message: 'login success!', userFormatted});
 			}
 		});
@@ -88,7 +88,7 @@ app.post('/auth/login', (req, res, next) => {
 
 app.get('/auth/checkCreds', (req, res) => {
 	if (req.isAuthenticated()) {
-		let userFormatted = formatDBUser(req.user);
+		let userFormatted = formatDBRes(req.user);
 		res.send({loggedIn: true, user: req.user});
 	} else res.send({loggedIn: false, user: null});
 });
@@ -102,8 +102,38 @@ app.get('/api/getbook/:book', (req, res) => {
 	let searchopts = {limit: 1};
 	books.search(req.params.book, searchopts, (err, results) => {
 		if (err) return res.status(500).json({message: 'login error', stringyErr: err.toString(), fullErr: err});
-		else return res.status(200).send(results);
+		else res.status(200).send(results);
 	});
+});
+
+app.post('/api/book', (req, res) => {
+	let book = req.body;
+	console.log('server book');
+	console.log(book);
+	let newBook = new Book({
+		id: book.id,
+		title: book.title,
+		link: book.link,
+		thumbnailUrl: book.thumbnailUrl,
+		owner: book.owner
+	});
+	newBook.save(err => {
+		if (err) res.status(500).json({message: 'book save error', stringyErr: err.toString(), fullErr: err});
+		else res.status(200).end({message: 'book saved'});
+	});
+});
+
+app.get('/api/allbooks', (req, res) => {
+	Book
+		.find({})
+		.exec()
+		.then(books => {
+			let formatBooks = [];
+			books.forEach(book => {
+				formatBooks.push(formatDBRes(book));
+			});
+			res.status(200).send(formatBooks);
+		});
 });
 
 /** Pass all non-api routes to front-end router for handling **/ 

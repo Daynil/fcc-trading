@@ -1,3 +1,8 @@
-<div>
-  <h1>All Books Be Here!</h1>
+<div id="all-books">
+  <h2>All Books</h2>
+  <div id="book-list">
+    <div *ngFor="let book of booksService.allBooks" class="book">
+      <a [href]="book.link"><img [src]="book.thumbnailUrl"></a>
+    </div>
+  </div>
 </div>

@@ -1,4 +1,4 @@
-import { Response } from '@angular/http';
+import { Response, Headers, RequestOptions } from '@angular/http';
 
 /** Parse server data to json */
 export function parseJson(res: Response) {
@@ -20,4 +20,20 @@ export function handleError(error: Response) {
     errorBody
   };
   console.log(errorParsed);
+}
+
+/** Prepare data for posting to server via http */
+export function packageForPost(data) {
+  let body;
+  try {
+    body = JSON.stringify(data);
+  } catch (err) {
+    console.log(err, 'data failed to string: ', data);
+  }
+  let headers = new Headers({ 'Content-Type': 'application/json' });
+  let options = new RequestOptions({ headers: headers });
+  return {
+    body: body,
+    options: options
+  };
 }
