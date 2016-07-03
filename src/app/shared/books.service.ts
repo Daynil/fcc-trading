@@ -15,7 +15,12 @@ export class BooksService {
   allBooks: Book[] = [];
   userBooks: Book[] = [];
 
-  constructor(private http: Http, private authService: AuthService) { }
+  constructor(private http: Http, 
+              private authService: AuthService) {
+                this.authService.logEvent.subscribe(logged => {
+                  if (logged.loggedIn) this.updateUserBooks();
+                })
+              }
 
   getAllBooks() {
     return this.http
@@ -24,7 +29,6 @@ export class BooksService {
                 .then(parseJson)
                 .then(res => {
                   this.allBooks = res;
-                  this.updateUserBooks();
                 })
                 .catch(handleError);
   }
@@ -36,8 +40,7 @@ export class BooksService {
                 .then(parseJson)
                 .then(res => {
                   let firstResult = this.formatBook(res[0]);
-                  let existingBook = _.find(this.allBooks, d => d.id === firstResult.id);
-                  console.log(this.allBooks, existingBook);
+                  let existingBook = _.find(this.userBooks, d => d.id === firstResult.id);
                   if (typeof existingBook !== 'undefined') return null;
                   this.allBooks.push(firstResult);
                   this.updateUserBooks();
@@ -69,6 +72,43 @@ export class BooksService {
 
   updateUserBooks() {
     this.userBooks = _.filter(this.allBooks, d => d.owner === this.authService.creds.user.username);
+  }
+
+  updateBook(changedBook: Book) {
+    let oldBook = _.find(this.allBooks, d => d.id === changedBook.id);
+    oldBook = _.clone(changedBook);
+    this.updateUserBooks();
+  }
+
+  initiateTrade(book: Book) {
+    let dataPackage = packageForPost(book);
+    return this.http
+                .post('/api/trade/request', dataPackage.body, dataPackage.options)
+                .toPromise()
+                .then(parseJson)
+                .catch(handleError);
+  }
+
+  acceptTrade(accepted: boolean, book: Book) {
+    let data = {
+      accepted: accepted,
+      book: book
+    };
+    let dataPackage = packageForPost(data);
+    return this.http
+                .post('/api/trade/accept', dataPackage.body, dataPackage.options)
+                .toPromise()
+                .then(parseJson)
+                .catch(handleError);
+  }
+
+  cancelRequest(book: Book) {
+    let dataPackage = packageForPost(book);
+    return this.http
+                .post('/api/trade/cancel', dataPackage.body, dataPackage.options)
+                .toPromise()
+                .then(parseJson)
+                .catch(handleError);
   }
 
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ROUTER_DIRECTIVES } from '@angular/router';
+import { ROUTER_DIRECTIVES, Router } from '@angular/router';
 
 import { AuthService } from '../shared/auth.service';
 
@@ -12,7 +12,8 @@ import { AuthService } from '../shared/auth.service';
 })
 export class SignUpComponent implements OnInit {
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService,
+              private router: Router) { }
 
   ngOnInit() { }
 
@@ -25,6 +26,7 @@ export class SignUpComponent implements OnInit {
                       console.log(res);
                       username.value = '';
                       password.value = '';
+                      this.router.navigate(['/log-in']);
                     });
   }
 

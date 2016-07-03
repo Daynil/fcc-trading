@@ -1,5 +1,22 @@
 <div id="my-books">
-  <h2>My Books</h2>
+  <div id="trade-screen">
+    <div id="trade-buttons">
+      <div class="button" (click)="showTrades('mine')">Books you're requested: {{ myTrades.length }}</div>
+      <div class="button" (click)="showTrades('other')">Books requested from you: {{ otherTrades.length }}</div>
+    </div>
+    <div id="trade-display" *ngIf="displayTrades">
+      <h2>{{ tradeTitle }}</h2>
+      <div class="trade-reqest" *ngFor="let request of displayTrades">
+          {{ request.title }}
+          <i *ngIf="!(displayType === 'mine')" 
+             (click)="acceptTrade(displayType, true, request)"
+             class="fa fa-check" aria-hidden="true"></i>
+          <i (click)="acceptTrade(displayType, false, request)"
+             class="fa fa-times" aria-hidden="true"></i>
+      </div>
+    </div>
+  </div>
+  <h2 id="books-title">My Books</h2>
   <div id="add">
     <h3>Add a book:</h3>
     <input #bookinput 
@@ -8,8 +25,9 @@
     <div class="button" (click)="addBook(bookinput)">Add</div>
   </div>
   <div id="book-list">
-    <div *ngFor="let book of booksService.allBooks" class="book">
+    <div *ngFor="let book of booksService.userBooks" class="book">
       <a [href]="book.link"><img [src]="book.thumbnailUrl"></a>
     </div>
   </div>
+  <div id="toast-wrap"><div class="toast" *ngIf="toastText">{{ toastText }}</div></div>
 </div>

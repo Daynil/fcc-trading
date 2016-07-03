@@ -6,7 +6,8 @@ let bookSchema = mongoose.Schema({
   title: String,
   link: String,
   thumbnailUrl: String,
-  owner: String
+  owner: String,
+  tradeRequester: String
 });
 
 module.exports = mongoose.model('Book', bookSchema);

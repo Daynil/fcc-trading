@@ -3,6 +3,10 @@
   <div id="book-list">
     <div *ngFor="let book of booksService.allBooks" class="book">
       <a [href]="book.link"><img [src]="book.thumbnailUrl"></a>
+      <div *ngIf="!isOwnBook(book)" class="trade" (click)="requestTrade(book)">
+        <i class="fa fa-exchange" aria-hidden="true"></i>
+      </div>
     </div>
   </div>
+  <div class="toast" *ngIf="toastText">{{ toastText }}</div>
 </div>

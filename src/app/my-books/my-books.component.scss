@@ -1,19 +1,60 @@
 @import '../shared/common-styles';
 
 #my-books {
-  text-align: center;
   font-family: 'Raleway';
 }
 
-#add {
+#trade-screen {
+  width: 70%;
+  margin: 0 auto;
+}
+
+#trade-buttons {
+  display: inline-flex;
+  flex-direction: column;
+  vertical-align: top;
+  position: relative;
+  top: 10px;
+  .button {
+    margin-bottom: 5px;
+  }
+}
+
+#trade-display {
   display: inline-block;
-  text-align: left; 
+  position: relative;
+  left: 5%;
+  .fa-check {
+    color: green;
+    transition: 0.1s;
+    &:hover {
+      cursor: pointer;
+      color: lightgreen;
+    }
+  }
+  .fa-times {
+    color: red;
+    transition: 0.1s;
+    &:hover {
+      cursor: pointer;
+      color: salmon;
+    }
+  }
+}
+
+#books-title {
+  text-align: center;
+}
+
+#add {
+  margin: 0 auto;
+  width: 260px;
   input {
     margin-right: 10px;
   }
 }
 
-book-list {
+#book-list {
   width: 70%;
   margin: 0 auto;
   display: flex;

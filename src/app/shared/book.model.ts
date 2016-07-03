@@ -4,4 +4,5 @@ export interface Book {
   link: string;
   thumbnailUrl: string;
   owner: string;
+  tradeRequester?: string;
 }

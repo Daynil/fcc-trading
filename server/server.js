@@ -108,8 +108,6 @@ app.get('/api/getbook/:book', (req, res) => {
 
 app.post('/api/book', (req, res) => {
 	let book = req.body;
-	console.log('server book');
-	console.log(book);
 	let newBook = new Book({
 		id: book.id,
 		title: book.title,
@@ -119,7 +117,7 @@ app.post('/api/book', (req, res) => {
 	});
 	newBook.save(err => {
 		if (err) res.status(500).json({message: 'book save error', stringyErr: err.toString(), fullErr: err});
-		else res.status(200).end({message: 'book saved'});
+		else res.status(200).json({message: 'book saved'});
 	});
 });
 
@@ -133,6 +131,62 @@ app.get('/api/allbooks', (req, res) => {
 				formatBooks.push(formatDBRes(book));
 			});
 			res.status(200).send(formatBooks);
+		});
+});
+
+app.post('/api/trade/request', (req, res) => {
+	let curBook = req.body;
+	console.log('request', curBook);
+	Book
+		.findOne({ title: curBook.title })
+		.exec()
+		.then(serverBook => {
+			serverBook.tradeRequester = curBook.tradeRequester;
+			serverBook.save(err => {
+				if (err) res.status(500).json({message: 'book save error', stringyErr: err.toString(), fullErr: err});
+				else {
+					console.log('updated serverbook:', serverBook);
+					res.status(200).json({message: 'trade requested'});
+				}
+			});
+		});
+});
+
+app.post('/api/trade/accept', (req, res) => {
+	// accepted: bool; book: Book
+	let tradeState = req.body;
+	console.log('accept', tradeState);
+	Book
+		.findOne({ title: tradeState.book.title })
+		.exec()
+		.then(serverBook => {
+			if (tradeState.accepted) {
+				serverBook.owner = tradeState.book.tradeRequester;
+			}
+			serverBook.tradeRequester = null;
+			serverBook.save(err => {
+				if (err) res.status(500).json({message: 'book save error', stringyErr: err.toString(), fullErr: err});
+				else {
+					res.status(200).json({message: 'trade complete'});
+				}
+			});
+		});
+});
+
+app.post('/api/trade/cancel', (req, res) => {
+	let cancelledTradeBook = req.body;
+	console.log('cancel', cancelledTradeBook);
+	Book
+		.findOne({ title: cancelledTradeBook.title })
+		.exec()
+		.then(serverBook => {
+			serverBook.tradeRequester = null;
+			serverBook.save(err => {
+				if (err) res.status(500).json({message: 'book save error', stringyErr: err.toString(), fullErr: err});
+				else {
+					res.status(200).json({message: 'request cancelled'});
+				}
+			});
 		});
 });
 
