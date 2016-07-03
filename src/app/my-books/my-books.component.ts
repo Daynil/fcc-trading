@@ -85,7 +85,7 @@ export class MyBooksComponent implements OnInit, OnChanges {
       this.refreshTrades();
       this.booksService
           .acceptTrade(accepted, book)
-          .then(res => this.toast(`Trade ${accepted ? 'accepted' : 'declined'}!`););
+          .then(res => this.toast(`Trade ${accepted ? 'accepted' : 'declined'}!`));
     }
   }
 

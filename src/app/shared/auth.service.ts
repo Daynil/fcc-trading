@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import "rxjs/add/operator/toPromise";
 
 import { User, Credentials } from './user.model';
-import { handleError, parseJson } from './http-helpers';
+import { handleError, parseJson, packageForPost } from './http-helpers';
 
 @Injectable()
 export class AuthService {
@@ -39,6 +39,7 @@ export class AuthService {
               .then(parseJson)
               .then(res => {
                 if (logType === 'login') {
+                  if (res.message === 'Username not found') return res;
                   this.creds = {
                     loggedIn: true,
                     user: res.userFormatted
@@ -61,4 +62,17 @@ export class AuthService {
               })
               .catch(handleError);
   }
+
+  updateProfile(name: string, city: string, state: string) {
+    this.creds.user.name = name;
+    this.creds.user.city = city;
+    this.creds.user.state = state;
+    let dataPkg = packageForPost(this.creds.user);
+    return this.http
+                .post('/auth/profile', dataPkg.body, dataPkg.options)
+                .toPromise()
+                .then(parseJson)
+                .catch(handleError);
+  }
+
 }

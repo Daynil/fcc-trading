@@ -1,3 +1,11 @@
-<div>
-  <h1>My Settings Be Here!</h1>
+<div id="settings">
+  <h1>Update Profile</h1>
+  <h3>Name</h3>
+  <input type="text" #name>
+  <h3>City</h3>
+  <input type="text" #city>
+  <h3>State</h3>
+  <input type="text" #state>
+  <div class="button" (click)="saveChanges(name, city, state)">Save Changes</div>
+  <div class="toast" *ngIf="toastText">{{ toastText }}</div>
 </div>

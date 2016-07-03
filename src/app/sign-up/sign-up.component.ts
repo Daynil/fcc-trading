@@ -12,6 +12,8 @@ import { AuthService } from '../shared/auth.service';
 })
 export class SignUpComponent implements OnInit {
 
+  toastText: string = null;
+
   constructor(private authService: AuthService,
               private router: Router) { }
 
@@ -23,11 +25,22 @@ export class SignUpComponent implements OnInit {
     if (usernameTxt.length < 1 || passwordTxt.length < 1) return;
     this.authService.handleAuthLogging('signup', usernameTxt, passwordTxt)
                     .then(res => {
-                      console.log(res);
                       username.value = '';
                       password.value = '';
-                      this.router.navigate(['/log-in']);
+                      if (res.message === 'Username taken'){
+                        this.toast('Username taken');
+                      }
+                      else {
+                        this.toast(res.message);
+                        this.router.navigate(['/log-in']);
+                      }
                     });
+  }
+
+  /** Show a notification message */
+  toast(text: string) {
+    this.toastText = text;
+    window.setTimeout(() => this.toastText = null, 2000);
   }
 
   

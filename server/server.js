@@ -28,6 +28,7 @@ require('./passport')(passport);
 // Database
 const mongoose = require('mongoose');
 const Book = require('./book');
+const User = require('./user')
 mongoose.connect(process.env.MONGO_URI);
 
 /** True = get response details on served node modules **/
@@ -64,7 +65,7 @@ app.use(passport.session());
 app.post('/auth/signup', (req, res, next) => {
 	passport.authenticate('local-signup', (err, user, info) => {
 		if (err) return res.status(500).json({message: 'auth error', stringyErr: err.toString(), fullErr: err});
-		if (!user) return res.status(400).json(info);
+		if (!user) return res.status(200).json(info);
 		req.logIn(user, (err) => {
 			if (err) return res.status(500).json({message: 'signup error', stringyErr: err.toString(), fullErr: err});
 			return res.status(200).json({message: 'signup success!', user: user.username});
@@ -75,7 +76,7 @@ app.post('/auth/signup', (req, res, next) => {
 app.post('/auth/login', (req, res, next) => {
 	passport.authenticate('local-login', (err, user, info) => {
 		if (err) return res.status(500).json({message: 'auth error', stringyErr: err.toString(), fullErr: err});
-		if (!user) return res.status(400).json(info);
+		if (!user) return res.status(200).json(info);
 		req.logIn(user, (err) => {
 			if (err) return res.status(500).json({message: 'login error', stringyErr: err.toString(), fullErr: err});
 			else {
@@ -96,6 +97,22 @@ app.get('/auth/checkCreds', (req, res) => {
 app.get('/auth/logout', (req, res) => {
 	req.logout();
 	res.end();
+});
+
+app.post('/auth/profile', (req, res) => {
+	let userInfo = req.body;
+	User
+		.findOne({ username: userInfo.username })
+		.exec()
+		.then(serverUser => {
+			serverUser.name = userInfo.name;
+			serverUser.city = userInfo.city;
+			serverUser.state = userInfo.state;
+			serverUser.save(err => {
+				if (err) res.status(500).json({message: 'login error', stringyErr: err.toString(), fullErr: err});
+				else res.status(200).json({message: 'user info saved'});
+			});
+		});
 });
 
 app.get('/api/getbook/:book', (req, res) => {

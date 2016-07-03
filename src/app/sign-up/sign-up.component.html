@@ -8,4 +8,5 @@
     <div class="button" (click)="signup(username, password)">Signup</div>
     <div>Already have an account? <a [routerLink]="['/log-in']">Log In</a></div>
   </div>
+  <div class="toast" *ngIf="toastText">{{ toastText }}</div>
 </div>

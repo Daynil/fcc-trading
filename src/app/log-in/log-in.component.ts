@@ -11,6 +11,9 @@ import { AuthService } from '../shared/auth.service';
   directives: [ROUTER_DIRECTIVES]
 })
 export class LogInComponent implements OnInit {
+
+  toastText: string = null;
+
   constructor(private authService: AuthService,
               private router: Router) { }
 
@@ -25,8 +28,18 @@ export class LogInComponent implements OnInit {
                       console.log(res);
                       username.value = '';
                       password.value = '';
-                      this.router.navigate(['/my-books']);
+                      if (res.message === 'Username not found') {
+                        this.toast('No such user!');
+                      } else {
+                        this.router.navigate(['/my-books']);
+                      }
                     });
+  }
+
+  /** Show a notification message */
+  toast(text: string) {
+    this.toastText = text;
+    window.setTimeout(() => this.toastText = null, 2000);
   }
 
 }
