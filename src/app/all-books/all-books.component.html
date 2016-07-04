@@ -1,5 +1,7 @@
 <div id="all-books">
   <h2>All Books</h2>
+  <p>Click <i class="fa fa-exchange" aria-hidden="true"></i> to request a trade from the owner!</p>
+  <p *ngIf="!authService.creds.loggedIn">Log in to trade</p>
   <div id="book-list">
     <div *ngFor="let book of booksService.allBooks" class="book">
       <a [href]="book.link"><img [src]="book.thumbnailUrl"></a>

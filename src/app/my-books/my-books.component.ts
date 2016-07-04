@@ -43,8 +43,10 @@ export class MyBooksComponent implements OnInit, OnChanges {
     this.booksService
         .getBook(bookInput.value)
         .then(res => {
-          console.log(res);
           bookInput.value = '';
+          if (res === null) {
+            this.toast('This book already exists in the club. Consider a trade!');
+          }
         });
   }
 
@@ -91,8 +93,9 @@ export class MyBooksComponent implements OnInit, OnChanges {
 
   /** Show a notification message */
   toast(text: string) {
+    let timeout = (text.length < 30) ? 2000 : 3000;
     this.toastText = text;
-    window.setTimeout(() => this.toastText = null, 2000);
+    window.setTimeout(() => this.toastText = null, timeout);
   }
 
 

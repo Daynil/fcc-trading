@@ -25,11 +25,12 @@ export class LogInComponent implements OnInit {
     if (usernameTxt.length < 1 || passwordTxt.length < 1) return;
     this.authService.handleAuthLogging('login', usernameTxt, passwordTxt)
                     .then(res => {
-                      console.log(res);
                       username.value = '';
                       password.value = '';
                       if (res.message === 'Username not found') {
                         this.toast('No such user!');
+                      } else if (res.message === 'Incorrect password') {
+                        this.toast('Incorrect password!');
                       } else {
                         this.router.navigate(['/my-books']);
                       }

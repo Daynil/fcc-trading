@@ -7,6 +7,8 @@
   <div id="button-area">
     <div class="button" (click)="login(username, password)">Login</div>
     <div>Don't have an account? <a [routerLink]="['/sign-up']">Sign up</a></div>
+    <div id="test">Just want to try?</div>
+    <div>Username: test; Password: test</div>
   </div>
   <div class="toast" *ngIf="toastText">{{ toastText }}</div>
 </div>

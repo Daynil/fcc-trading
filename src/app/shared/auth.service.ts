@@ -39,7 +39,8 @@ export class AuthService {
               .then(parseJson)
               .then(res => {
                 if (logType === 'login') {
-                  if (res.message === 'Username not found') return res;
+                  if (res.message === 'Username not found' ||
+                      res.message === 'Incorrect password') return res;
                   this.creds = {
                     loggedIn: true,
                     user: res.userFormatted

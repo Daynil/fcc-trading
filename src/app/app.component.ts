@@ -28,7 +28,6 @@ export class AppComponent implements OnInit {
         user: curUser
       };
       if (!this.creds.loggedIn) this.router.navigate(['']);
-      console.log('creds on log change', this.creds);
     });
   }
 

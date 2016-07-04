@@ -76,7 +76,9 @@ app.post('/auth/signup', (req, res, next) => {
 app.post('/auth/login', (req, res, next) => {
 	passport.authenticate('local-login', (err, user, info) => {
 		if (err) return res.status(500).json({message: 'auth error', stringyErr: err.toString(), fullErr: err});
-		if (!user) return res.status(200).json(info);
+		if (!user) {
+			return res.status(200).json(info);
+		}
 		req.logIn(user, (err) => {
 			if (err) return res.status(500).json({message: 'login error', stringyErr: err.toString(), fullErr: err});
 			else {
@@ -153,7 +155,6 @@ app.get('/api/allbooks', (req, res) => {
 
 app.post('/api/trade/request', (req, res) => {
 	let curBook = req.body;
-	console.log('request', curBook);
 	Book
 		.findOne({ title: curBook.title })
 		.exec()
@@ -162,7 +163,6 @@ app.post('/api/trade/request', (req, res) => {
 			serverBook.save(err => {
 				if (err) res.status(500).json({message: 'book save error', stringyErr: err.toString(), fullErr: err});
 				else {
-					console.log('updated serverbook:', serverBook);
 					res.status(200).json({message: 'trade requested'});
 				}
 			});
@@ -172,7 +172,6 @@ app.post('/api/trade/request', (req, res) => {
 app.post('/api/trade/accept', (req, res) => {
 	// accepted: bool; book: Book
 	let tradeState = req.body;
-	console.log('accept', tradeState);
 	Book
 		.findOne({ title: tradeState.book.title })
 		.exec()
@@ -192,7 +191,6 @@ app.post('/api/trade/accept', (req, res) => {
 
 app.post('/api/trade/cancel', (req, res) => {
 	let cancelledTradeBook = req.body;
-	console.log('cancel', cancelledTradeBook);
 	Book
 		.findOne({ title: cancelledTradeBook.title })
 		.exec()

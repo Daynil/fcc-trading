@@ -40,7 +40,7 @@ export class BooksService {
                 .then(parseJson)
                 .then(res => {
                   let firstResult = this.formatBook(res[0]);
-                  let existingBook = _.find(this.userBooks, d => d.id === firstResult.id);
+                  let existingBook = _.find(this.allBooks, d => d.id === firstResult.id);
                   if (typeof existingBook !== 'undefined') return null;
                   this.allBooks.push(firstResult);
                   this.updateUserBooks();
@@ -51,7 +51,7 @@ export class BooksService {
   }
 
   saveBook(book: Book) {
-    if (book === null) return;
+    if (book === null) return Promise.resolve(null);
     let dataPackage = packageForPost(book);
     return this.http
                 .post('/api/book', dataPackage.body, dataPackage.options)
