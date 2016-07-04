@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HTTP_PROVIDERS } from '@angular/http';
 import { ROUTER_DIRECTIVES, Router } from '@angular/router';
 
+import { AttributionComponent } from './shared/attribution.component';
 import { AuthService } from './shared/auth.service';
 import { BooksService } from './shared/books.service';
 import { Credentials, User } from './shared/user.model';
@@ -11,7 +12,7 @@ import { Credentials, User } from './shared/user.model';
   selector: 'my-app',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.css'],
-  directives: [ROUTER_DIRECTIVES],
+  directives: [ROUTER_DIRECTIVES, AttributionComponent],
   providers: [HTTP_PROVIDERS, AuthService, BooksService]
 })
 export class AppComponent implements OnInit {
