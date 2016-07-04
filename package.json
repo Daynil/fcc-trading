@@ -21,6 +21,7 @@
     "@angular/router-deprecated": "2.0.0-rc.2",
     "@angular/upgrade": "2.0.0-rc.3",
     "angular2-in-memory-web-api": "0.0.5",
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.0",
     "compression": "^1.6.2",
     "concurrently": "^2.1.0",
